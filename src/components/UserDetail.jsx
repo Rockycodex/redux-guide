@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {userDetails} from './userSlice';
 
 const UserDetail = () => {
-  const [user, setUser] = useState({});
+//   const [user, setUser] = useState({});
   const { userId } = useParams();
+
+  const dispatch =  useDispatch();
+  const user = useSelector(state => state.user.userDetails);
 
   useEffect(() => {
     fetch(`https://reqres.in/api/users/${userId}`)
       .then((res) => res.json())
-      .then((res) => setUser(res.data));
+      .then((res) => dispatch(userDetails((res.data))));
   }, []);
 
   return (
